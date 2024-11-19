@@ -3,13 +3,7 @@
         <div class="hotel_data">
             <h1>{{ card.name }}</h1>
             <p>{{ card.address }}</p>
-            <p>{{ attrs }}</p>
-            <div class="rating">
-                <p class="rating_text">Рейтинг: {{ card.category_stars }} </p> 
-                <img src="../../public/icons/star.png" class="star">
-            </div>
-        </div>
-        <div class="hotel_photo">
+            <div class="hotel_photo">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -18,11 +12,16 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" :src="card.photo" alt="Photo">
-                    <!-- <img class="d-block w-100" src="img-cdn.kudanamore.ru/1NNAL_lPGTQeI4dudlq_J5lw_y0=/800x534/filters:no_upscale():quality(65):format(webp)/hotels/2602/3efa0d76a36b3dbbf98c6b84c2ee8044.jpg" alt="Photo"> -->
+                        <img class="d-block w-100" :src="card.photos[0]" alt="Photo">
                     </div>
                     <div class="carousel-item" v-for="photo in this.photoUrls" v-bind:key="photo">
-                        <img class="d-block w-100" :src="photo"  alt="Второй слайд">
+                        <img class="d-block w-100" :src="card.photos[1]"  alt="Второй слайд">
+                    </div>
+                    <div class="carousel-item" v-for="photo in this.photoUrls" v-bind:key="photo">
+                        <img class="d-block w-100" :src="card.photos[2]"  alt="Второй слайд">
+                    </div>
+                    <div class="carousel-item" v-for="photo in this.photoUrls" v-bind:key="photo">
+                        <img class="d-block w-100" :src="card.photos[3]"  alt="Второй слайд">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -33,6 +32,14 @@
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
+            </div>
+        </div>
+            <ul v-for="attr in attrs" v-bind:key="attr">
+                <li>{{ attr }}</li>
+            </ul>
+            <div class="rating">
+                <p class="rating_text">Рейтинг: {{ card.category_stars }} </p> 
+                <img src="../../public/icons/star.png" class="star">
             </div>
         </div>
     </div>

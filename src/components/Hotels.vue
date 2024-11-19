@@ -5,15 +5,15 @@
                     <div class="card-body" v-for="item in getAllResult.items" v-bind:key="item.id">
                         <h5 class="card-title">{{ item.name }}</h5>
                         <p class="card-text">Адрес: {{ item.address }}</p>
-                        <div class="attrs_list">
-                            <ul v-for="attr in item.attributes" v-bind:key="attr" class="attrs">
-                                <li>{{ getAttributeName(attr) }}</li>
-                            </ul>
-                        </div>
-                        <div class="card_photo">
-                            <!-- как фотку то первую вывести????? -->
-                            <img :src="el.photos" class="card-img-top" alt="Hotel image">
-                            <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <ul v-for="attr in item.attributes" v-bind:key="attr" class="attrs">
+                                    <li>{{ getAttributeName(attr) }}</li>
+                                </ul>
+                            </div>
+                            <div class="col-8">
+                                <img :src="item.photos[0]" class="img-fluid" alt="Hotel image">
+                            </div>
                         </div>
                         <button type="button" class="btn btn-primary" @click="this.openCard(item.id)">More info</button>
                     </div>
