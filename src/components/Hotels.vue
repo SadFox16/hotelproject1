@@ -1,40 +1,45 @@
 <template>
-        <span v-if="this.flag">
+        <span v-if="this.flag" class="main">
             <div v-for="el in getAllResult" v-bind:key="el.id" class="container">
-                <div class="card" style="width: 18rem;">
+                <div class="card">
                     <div class="card-body" v-for="item in getAllResult.items" v-bind:key="item.id">
-                        <img src="../../public/Hotels images/photo.jpg" class="card-img-top" alt="Hotel image">
                         <h5 class="card-title">{{ item.name }}</h5>
-                        <p class="card-text">{{ item.address }}</p>
-                        <ul v-for="attr in item.attributes" v-bind:key="attr">
-                            <li>{{ getAttributeName(attr) }}</li>
-                        </ul>
+                        <p class="card-text">Адрес: {{ item.address }}</p>
+                        <div class="attrs_list">
+                            <ul v-for="attr in item.attributes" v-bind:key="attr" class="attrs">
+                                <li>{{ getAttributeName(attr) }}</li>
+                            </ul>
+                        </div>
+                        <div class="card_photo">
+                            <!-- как фотку то первую вывести????? -->
+                            <img :src="el.photos" class="card-img-top" alt="Hotel image">
+                            <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                        </div>
                         <button type="button" class="btn btn-primary" @click="this.openCard(item.id)">More info</button>
                     </div>
                 </div>
             </div>
         </span>
-        <span v-else>
-            <HotelCard v-bind:id="idHotel"/>
+        <span v-else class="hotel_card">
+            <HotelCard v-bind:card="card" v-bind:attrs="attrs"/>
         </span>
 </template>
 
 <script>
-import { markRaw } from 'vue';
+import { markRaw, toRaw } from 'vue';
 import HotelCard from './HotelCard.vue';
 
 export default{
     components:{ 
         HotelCard 
     },
-    props:{
-        id: 0
-    },
     data(){
         return{
             getAllResult: null,
             getAttributesResult: null,
             flag: true,
+            card: null,
+            attrs: []
         }
     },
     methods:{
@@ -75,7 +80,18 @@ export default{
             return this.getAttributesResult[slug].name 
         },
         openCard(id){
-            this.idHotel = id
+            for(let item of this.getAllResult.items){
+                if(item.id == id){
+                    this.card = markRaw(item)
+                    for(let attr in item.attributes){
+                        for(let el in this.getAttributesResult){
+                            if(item.attributes[attr] == this.getAttributesResult[el].slug){
+                                this.attrs.push(this.getAttributesResult[el].name)
+                            }
+                        }   
+                    } 
+                }
+            }
             this.flag = false
         }
     },
@@ -87,20 +103,64 @@ export default{
 </script>
 
 <style>
+.main{
+    width: 100%;
+    height: 100%;
+    margin-left: 350px;
+}
+
 .container{
-    padding: 20px;
+    padding: 0px;
+    margin: 0px;
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
+    align-items: center;
 }
 
 .card{
-    width: 200px;
+    display: flex;
+}
+
+.card-title{
+    text-align: center;
+}
+
+.card-text{
+    text-align: center;
 }
 
 .card-body{
     border-style: double;
     margin: 20px;
-    text-align: center;
+    /* display: grid;
+    grid-template-columns: 2; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex: 2;
+}
+
+.card-text{
+    text-decoration: underline;
+}
+
+.attrs_list{
+    flex: 1;
+    max-width: 33.33%;
+}
+
+.attrs{
+    width: 300px;
+}
+
+.card_photo{
+    flex: 1;
+    max-width: 33.33%;
+}
+
+.hotel_card{
+    width: 100%;
+    height: 100%;
 }
 </style>
