@@ -27,10 +27,18 @@ a,
   body {
     display: flex;
     place-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
   }
 
   #app {
     display: flex;
     margin: 0px;
+    padding: 0px;
+    justify-content: center;
+    place-items: center;
+    width: 100%;
   }
 }

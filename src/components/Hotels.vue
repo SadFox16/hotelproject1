@@ -17,7 +17,7 @@
                             </div>
                         </div>
                         <router-link :to="'/hotelcard/' + item.id">
-                            Here
+                            <button type="button" class="btn btn-primary" style="width: 100%;">More info</button>
                         </router-link>
                     </div>
                 </div>
@@ -30,61 +30,9 @@
             Next
         </button>
     </div>
-
-
-
-    <!-- </span> -->
-        <!-- <span v-else class="hotel_card"> -->
-            <!-- <HotelCard v-bind:card="card" v-bind:attrs="attrs"/> -->
-        <!-- </span> -->
-
-
-        <!-- <span v-if="this.flag" class="main">
-            <div v-for="el in getAllResult" v-bind:key="el.id" class="container">
-                <div class="card">
-                    <div class="card-body" v-for="item in getAllResult.items" v-bind:key="item.id">
-                        <h5 class="card-title">{{ item.name }}</h5>
-                        <p class="card-text">Адрес: {{ item.address }}</p>
-                        <div class="row mb-3">
-                            <div class="col-4">
-                                <ul v-for="attr in item.attributes" v-bind:key="attr" class="attrs">
-                                    <li>{{ getAttributeName(attr) }}</li>
-                                </ul>
-                            </div>
-                            <div class="col-8">
-                                <img :src="item.photos[0]" class="img-fluid" alt="Hotel image">
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary" @click="this.openCard(item.id)">More info</button>
-                        <router-link to="/hotelcard/:id">
-                            <button type="button" class="btn btn-primary" @click="this.openCard(item.id)">More info</button>
-                        </router-link>
-                    </div>
-                </div>
-            </div>
-            <div>
-            <ul>
-                <li v-for="p in paginatedData" v-bind:key="p">
-                {{p.first}} 
-                {{p.last}}  
-                {{p.suffix}}
-                </li>
-            </ul>
-            <button @click="prevPage">
-                Previous 
-            </button>
-            <button @click="nextPage">
-                Next
-            </button>
-        </div>
-        </span>
-        <span v-else class="hotel_card">
-            <HotelCard v-bind:card="card" v-bind:attrs="attrs"/>
-        </span> -->
 </template>
 
 <script>
-import { markRaw, toRaw } from 'vue';
 import HotelCard from './HotelCard.vue';
 import { useHotelStore } from '@/store/HotelsStore';
 import { useAttributesStore } from '@/store/AttributesStore';
@@ -156,10 +104,9 @@ export default{
 .container{
     padding: 0px;
     margin: 0px;
-    width: 100%;
+    /* width: 100%;
     display: flex;
-    /* justify-content: space-around; */
-    align-items: center;
+    align-items: center; */
 }
 
 .card{
@@ -177,8 +124,6 @@ export default{
 .card-body{
     border-style: double;
     margin: 20px;
-    /* display: grid;
-    grid-template-columns: 2; */
     display: flex;
     justify-content: center;
     flex-direction: column;
