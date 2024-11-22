@@ -1,35 +1,29 @@
 <template>
     <div class="card">
             {{ this.getCard($route.params.id) }}
-            {{ this.card.name }}
         <div class="hotel_data">
-            <h1>{{ this.card.name }}</h1>
-            <p>{{ this.card.address }}</p>
-                    <div class="hotel_photo" v-for="(photo, index) in this.card.photos" v-bind:key="photo">
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img class="d-block w-100" :src="photo[index]" alt="Photo">
-                                </div>
-                            </div>
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-                    </div>  
-            <ul v-for="attr in attrs" v-bind:key="attr">
-                <li>{{ this.getAttributeName(attr) }}</li>
-            </ul>
+            <h1 style="text-align: center;">{{ this.card.name }}</h1>
+            <p style="text-decoration: underline; text-align: center;">Адрес: {{ this.card.address }}</p>
+            <div class="row mb-3">
+                <div class="col-4">
+                    <ul v-for="attr in attrs" v-bind:key="attr">
+                        <li>{{ this.getAttributeName(attr) }}</li>
+                    </ul>
+                </div>
+                <carousel :items-to-show="1.5" class="col-8">
+                    <slide v-for="(slide, index) in this.card.photos" :key="slide">
+                        <img class="d-block w-100" :src="slide" alt="Первый слайд" v-if="index==0">
+                        <img class="d-block w-100" :src="slide" alt="Второй слайд" v-if="index==1">
+                        <img class="d-block w-100" :src="slide" alt="Третий слайд" v-if="index==2">
+                        <img class="d-block w-100" :src="slide" alt="Четвертый слайд" v-if="index==3">
+                        <img class="d-block w-100" :src="slide" alt="Пятый слайд" v-if="index==4">
+                    </slide>
+                    <template #addons>
+                    <navigation />
+                    <pagination />
+                    </template>
+                </carousel>
+            </div>  
             <div class="rating">
                 <p class="rating_text">Рейтинг: {{ this.card.reviews_rating}} </p> 
                 <img src="../../public/icons/star.png" class="star">
@@ -46,7 +40,16 @@ import { useHotelStore } from '@/store/HotelsStore';
 import { useAttributesStore } from '@/store/AttributesStore';
 import { markRaw, toRaw } from 'vue';
 
+import 'vue3-carousel/dist/carousel.css'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+
 export default {
+    components: {
+        Carousel,
+        Slide,
+        Pagination,
+        Navigation,
+    },
     setup(){
         const allHotels = useHotelStore()
         const allAttributes = useAttributesStore()
@@ -84,12 +87,8 @@ export default {
 
 <style>
 .card{
-    /* display: flex;
-    justify-content: space-around;
-    align-items: baseline; */
     display: table;
     width: 1100px;
-    /* display: inline-block; */
 }
 
 .hotel_data{

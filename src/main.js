@@ -5,6 +5,7 @@ import "bootstrap"
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
+import { Carousel3d } from 'vue-carousel-3d';
 import App from './App.vue'
 import Hotels from './components/Hotels.vue'
 import HotelCard from './components/HotelCard.vue'
@@ -21,5 +22,6 @@ const pinia = createPinia()
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
+app.use(Carousel3d)
 app.mount('#app')
 // createApp(App).mount('#app')
