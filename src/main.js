@@ -3,6 +3,23 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 
 import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import { createPinia } from 'pinia'
 import App from './App.vue'
+import Hotels from './components/Hotels.vue'
+import HotelCard from './components/HotelCard.vue'
 
-createApp(App).mount('#app')
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [
+        {path: '/', component: Hotels},
+        {path: '/hotelcard/:id', component: HotelCard},
+    ],
+})
+
+const pinia = createPinia()
+const app = createApp(App)
+app.use(router)
+app.use(pinia)
+app.mount('#app')
+// createApp(App).mount('#app')

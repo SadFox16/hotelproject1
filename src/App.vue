@@ -4,7 +4,8 @@ import Hotels from './components/Hotels.vue';
 
 <template>
   <div class="container">
-    <Hotels/>
+    <!-- <Hotels/> -->
+    <router-view></router-view>
   </div>
 </template>
 
