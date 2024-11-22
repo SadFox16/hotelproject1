@@ -1,11 +1,5 @@
 <template>
     <div>
-        <!-- {{ this.allHotels }} -->
-          <!-- {{ this.allHotels.hotels.pages }} -->
-            <!-- {{ this.allHotels.hotels }} -->
-            Pages: {{ this.allHotels.pages }}
-           Page  {{ this.allHotels.page }}
-            Total {{ this.allHotels.total }}
         <div v-for="hotel in this.allHotels.hotels" v-bind:key="hotel">
             <div v-for="item in hotel" v-bind:key="item">
                 <div class="card" v-if="item.name">
@@ -18,28 +12,17 @@
                                     <li>{{ getAttributeName(attr) }}</li>
                                 </ul>
                             </div>
-                            <!-- <div> {{item}} </div> -->
                             <div class="col-8" v-for="(photo, index) in item.photos" v-bind:key="photo">
                                 <img :src="photo" class="img-fluid" alt="Hotel image" v-if="index==0">
-                                <!-- <img class="img-fluid" alt="Hotel image"> -->
-                                <!-- <img :src="getFirsrPhotoUrl(item)" class="img-fluid" alt="Hotel image"> -->
                             </div>
                         </div>
                         <router-link :to="'/hotelcard/' + item.id">
-                        <!-- <router-link to="/hotelcard/:item.id"> -->
                             Here
                         </router-link>
                     </div>
                 </div>
             </div>
         </div>
-        <ul>
-            <li v-for="p in paginatedData" v-bind:key="p">
-            {{p.first}} 
-            {{p.last}}  
-            {{p.suffix}}
-            </li>
-        </ul>
         <button @click="prevPage" v-if="flag1">
             Previous 
         </button>
@@ -106,9 +89,6 @@ import HotelCard from './HotelCard.vue';
 import { useHotelStore } from '@/store/HotelsStore';
 import { useAttributesStore } from '@/store/AttributesStore';
 
-// const allHotels = useHotelStore()
-// const allAttributes = useAttributesStore()
-
 export default{
     setup(){
         const allHotels = useHotelStore()
@@ -122,7 +102,7 @@ export default{
         return{
             getAllResult: null,
             getAttributesResult: null,
-            flag1: null,
+            flag1: false,
             flag2: true,
             card: null,
             attrs: [],
@@ -130,120 +110,39 @@ export default{
             firstPhotoUrl: ''
         }
     },
-    // props:{
-    //     size:{
-    //         type:Number,
-    //         required:false,
-    //         default: 10
-    //     }
-    // },
-    // computed:{
-    //     getFirsrPhotoUrl(item){
-    //         // let photoUrls = toRaw(item.photos)
-    //         console.log(item.photos)
-    //         // let firstPhotoUrl = ''
-    //         // console.log(photoUrls)
-    //         // console.log(item.photos)
-    //         // for(let photo in item.photos){
-    //         //     firstPhotoUrl = photo[0]
-    //         //     // console.log(firstPhotoUrl)
-    //         // }
-    //         firstPhotoUrl = item.photos.slice(0,1)
-    //         console.log(firstPhotoUrl)
-    //         // return firstPhotoUrl
-    //     },
-    // },
     methods:{
         nextPage(){
-            // добавить проверку на превышение pages
+            this.pageNumber++
+            this.allHotels.getHotelsData(this.pageNumber)
             if(this.pageNumber <= this.allHotels.pages){
-                this.pageNumber++
-                this.allHotels.getHotelsData(this.pageNumber)
+                this.flag1 = true
             }else if(this.allHotels.pages > 2){
-                this.flag1 == true
+                this.flag1 = true
+                this.flag2 = true
             }else{
-                this.flag2 == false
+                this.flag1 = true
+                this.flag2 = false
             }
         },
         prevPage(){
-            if(this.pageNumber = 1){
-                this.flag1 == false
+            this.pageNumber--
+            this.allHotels.getHotelsData(this.pageNumber)
+            if(this.pageNumber == 1){
+                this.flag1 = false
+                this.flag2 = true
             }else{
-                this.pageNumber--
-                this.allHotels.getHotelsData(this.pageNumber)
-                this.flag1 == true
-                this.flag2 == false
+                this.flag1 = true
+                this.flag2 = true
             }
         },
-        // async getAllData() {
-        //     try {
-        //         const res = await fetch(`https://kudanamore.softorium.pro/api/v1/accomodations`);
-        //         if (!res.ok) {
-        //             const message = `An error has occured: ${res.status} - ${res.statusText}`;
-        //             throw new Error(message);
-        //         }
-        //         const data = await res.json();
-        //         const result = {
-        //             data: data,
-        //         };
-        //         this.getAllResult = markRaw(data)
-        //         this.hotels = data
-        //         // console.log(this.hotels)
-        //     } catch (err) {
-        //         this.getResult = err.message;
-        //     }
-        // },
-        // async getAttributesData(){
-        //     try{
-        //         const res = await fetch('https://kudanamore.softorium.pro/api/v1/accomodation-attributes')
-        //         if(!res.ok){
-        //             const message = `An error has occured: ${res.status} - ${res.statusText}`;
-        //             throw new Error(message);
-        //         }
-        //         const data = await res.json();
-        //         const result = {};
-        //         for(let key in data.items){
-        //             result[data.items[key].slug] = data.items[key] 
-        //         }
-        //         this.getAttributesResult = markRaw(result)
-        //         this.attributes = result
-        //         // console.log(this.attributes)
-        //     } catch (err) {
-        //         this.getResult = err.message;
-        //     }
-        // },
         getAttributeName(slug){
             return this.allAttributes.attributes[slug].name 
-        },
-        // openCard(id){
-        //     for(let item of this.getAllResult.items){
-        //         if(item.id == id){
-        //             this.card = markRaw(item)
-        //             for(let attr in item.attributes){
-        //                 for(let el in this.getAttributesResult){
-        //                     if(item.attributes[attr] == this.getAttributesResult[el].slug){
-        //                         this.attrs.push(this.getAttributesResult[el].name)
-        //                     }
-        //                 }   
-        //             } 
-        //         }
-        //     }
-        //     this.flag = false
-        // }
+        }
     },
     mounted(){
-        // this.getAllData(),
-        // this.getAttributesData(),
         this.allHotels.getHotelsData()
         this.allAttributes.getAttributesData()
     }
-    // computed:{
-    //     paginatedData(){
-    //         const start = this.pageNumber * this.size,
-    //         end = start + this.size;
-    //         // return this.getAllResult.slice(start, end);
-    //     }
-    // }
 }
 </script>
 

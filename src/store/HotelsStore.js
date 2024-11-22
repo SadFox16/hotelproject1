@@ -20,16 +20,9 @@ export const useHotelStore = defineStore('hotels', {
                 }
                 const data = await res.json();
                 this.hotels = markRaw(data)
-                // this.data = markRaw(data)
-                // this.hotels = this.data.items
-                // let markData = markRaw(data)
-                // console.log(markData)
-                // this.hotels = markRaw(markData.items)
                 this.total = this.hotels.total
                 this.pages = this.hotels.pages
                 this.page = this.hotels.page
-                console.log(this.pages)
-                console.log(this.hotels)
             } catch (err) {
                 this.getResult = err.message;
             }
