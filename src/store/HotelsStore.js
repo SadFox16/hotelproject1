@@ -13,7 +13,7 @@ export const useHotelStore = defineStore('hotels', {
         async getHotelsData(page=1) {
             try {
                 const params = new URLSearchParams({ page: page }).toString();
-                const res = await fetch(`https://kudanamore.softorium.pro/api/v1/accomodations?${params}`);
+                const res = await fetch(`https://kudanamore.softorium.pro/api/v1/accomodations/?${params}`);
                 if (!res.ok) {
                     const message = `An error has occured: ${res.status} - ${res.statusText}`;
                     throw new Error(message);

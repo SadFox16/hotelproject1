@@ -17,18 +17,20 @@
                             </div>
                         </div>
                         <router-link :to="'/hotelcard/' + item.id">
-                            <button type="button" class="btn btn-primary" style="width: 100%;">More info</button>
+                            <button type="button" class="btn btn-primary" style="width: 100%;">Детальная информация</button>
                         </router-link>
                     </div>
                 </div>
             </div>
         </div>
-        <button @click="prevPage" v-if="flag1">
-            Previous 
-        </button>
-        <button @click="nextPage" v-if="flag2">
-            Next
-        </button>
+        <div>
+            <button @click="prevPage" v-if="flag1">
+                Previous 
+            </button>
+            <button @click="nextPage" v-if="flag2">
+                Next
+            </button>
+        </div>
     </div>
 </template>
 
@@ -88,6 +90,10 @@ export default{
         }
     },
     mounted(){
+        this.allHotels.getHotelsData()
+        this.allAttributes.getAttributesData()
+    },
+    updated(){
         this.allHotels.getHotelsData()
         this.allAttributes.getAttributesData()
     }
